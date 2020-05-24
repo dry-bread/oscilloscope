@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     simulate_enable(false);
     init_time_chart();
@@ -304,7 +305,9 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
         in_time.removeFirst();
     }
     in_time.append(temp_in);//将时域数据装入fft计算的容器里
-
+    if(((signal_pointer+1)%1024!=0)&&(signal_pointer>1024)){
+        return;
+    }
     if(m_fft.is_power_of_two(in_time.length())){//判断数据源长度是否符合计算要求
         qDebug()<<"时域转频域个数："<<(in_time.length())<<endl;
         past_freq_am.clear();
@@ -321,9 +324,6 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
             //计算频域波形点
             out_freq_kHz=i/sampling_time/(in_time.length())*1000;//x轴单位Hz
             out_freq_am=qSqrt(qPow((out_freq.at(i).im),2) +qPow((out_freq.at(i).rl),2))/(in_time.length())*2;
-//            if(out_freq_kHz==0){
-//                out_freq_am*=2;
-//            }
             //绘制频域波形
             freq_series->append(out_freq_kHz,out_freq_am);
             past_freq_am.append(QString::number(out_freq_am) );
@@ -455,7 +455,7 @@ void MainWindow::save_txt(QString str)
     else {
         QFile file(filename);
 
-        if(!file.open(QIODevice::WriteOnly  | QIODevice::Text|QIODevice::Append))
+        if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
         {
             QMessageBox::warning(this,"sdf","can't open",QMessageBox::Yes);
         }

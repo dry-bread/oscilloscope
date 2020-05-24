@@ -35,3 +35,8 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+ICON += ":/Icon/mainwindow1.png"
+
+RESOURCES += \
+    res.qrc
