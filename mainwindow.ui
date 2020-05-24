@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1535</width>
-    <height>734</height>
+    <width>1583</width>
+    <height>833</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
 font: 9pt &quot;宋体&quot;;</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QGroupBox" name="groupBox_real_1">
     <property name="geometry">
      <rect>
       <x>1290</x>
@@ -131,6 +131,64 @@ font: 9pt &quot;Arial&quot;;</string>
       <string>继续采样</string>
      </property>
     </widget>
+    <widget class="QGroupBox" name="groupBox_simulate_1">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>221</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(215, 255, 215);</string>
+     </property>
+     <property name="title">
+      <string>仿真波形</string>
+     </property>
+     <widget class="QRadioButton" name="radio_wave_sin_6">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>40</y>
+        <width>89</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>正弦波</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio_wave_square_6">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>80</y>
+        <width>89</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>方波</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radio_wave_triangle_6">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>120</y>
+        <width>89</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>三角波</string>
+      </property>
+     </widget>
+    </widget>
     <zorder>label_2</zorder>
     <zorder>btn_sample_start</zorder>
     <zorder>btn_sample_stop</zorder>
@@ -138,8 +196,9 @@ font: 9pt &quot;Arial&quot;;</string>
     <zorder>label</zorder>
     <zorder>lineEdit_sample_time</zorder>
     <zorder>btn_sample_goon</zorder>
+    <zorder>groupBox_simulate_1</zorder>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="groupBox_real_2">
     <property name="geometry">
      <rect>
       <x>1290</x>
@@ -237,7 +296,7 @@ font: 9pt &quot;Arial&quot;;</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>230</y>
+       <y>290</y>
        <width>61</width>
        <height>21</height>
       </rect>
@@ -250,7 +309,7 @@ font: 9pt &quot;Arial&quot;;</string>
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>260</y>
+       <y>320</y>
        <width>21</width>
        <height>16</height>
       </rect>
@@ -273,14 +332,14 @@ font: 9pt &quot;Arial&quot;;</string>
 background-color: rgb(247, 255, 224);</string>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_voltages_mean">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>260</y>
+       <y>320</y>
        <width>111</width>
        <height>21</height>
       </rect>
@@ -290,7 +349,7 @@ background-color: rgb(247, 255, 224);</string>
 background-color: rgb(247, 255, 224);</string>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_voltages_Hz">
@@ -307,7 +366,7 @@ background-color: rgb(247, 255, 224);</string>
 background-color: rgb(247, 255, 224);</string>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_voltages_min">
@@ -324,14 +383,14 @@ background-color: rgb(247, 255, 224);</string>
 background-color: rgb(247, 255, 224);</string>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_voltages_current">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>320</y>
+       <y>380</y>
        <width>111</width>
        <height>21</height>
       </rect>
@@ -341,14 +400,14 @@ background-color: rgb(247, 255, 224);</string>
 background-color: rgb(247, 255, 224);</string>
      </property>
      <property name="text">
-      <string>当前值：</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
        <x>180</x>
-       <y>320</y>
+       <y>380</y>
        <width>21</width>
        <height>16</height>
       </rect>
@@ -361,7 +420,7 @@ background-color: rgb(247, 255, 224);</string>
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>290</y>
+       <y>350</y>
        <width>61</width>
        <height>21</height>
       </rect>
@@ -369,6 +428,428 @@ background-color: rgb(247, 255, 224);</string>
      <property name="text">
       <string>当前值：</string>
      </property>
+    </widget>
+    <widget class="QLabel" name="label_voltages_am">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>260</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(247, 255, 224);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>230</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>主频率幅值：</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_simulate_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>231</width>
+       <height>491</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(215, 255, 215);</string>
+     </property>
+     <property name="title">
+      <string>信号设置</string>
+     </property>
+     <widget class="QLabel" name="label_53">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>54</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>波形周期：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_set_period">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>30</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_54">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>54</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>幅 值 ：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_set_voltages_am">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>70</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_55">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>54</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>增加直流：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_set_addv">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>110</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_56">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>30</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ms</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_57">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>V</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_58">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>120</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>V</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_59">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>54</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>采样周期：</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_set_sampletime">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>150</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_60">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>170</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ms</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_simulate_start">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>230</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>开始仿真</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_simulate_over">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>230</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>结束仿真</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_simulate_pause">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>270</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>暂停/继续</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_simulate_exit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>270</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>退出仿真</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_61">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>30</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ms</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_62">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>70</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>V</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_63">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>110</y>
+        <width>21</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>V</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_64">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>160</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ms</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>340</y>
+        <width>54</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>主频率：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_s_freq">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>360</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(238, 255, 206);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>360</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Hz</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>440</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>V</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_s_current">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>440</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(238, 255, 206);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>420</y>
+        <width>54</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>当前值：</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_s_am">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>400</y>
+        <width>91</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgb(238, 255, 206);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>380</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>主频率幅值：</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -441,7 +922,7 @@ font: 14pt &quot;Adobe Devanagari&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1535</width>
+     <width>1583</width>
      <height>18</height>
     </rect>
    </property>
@@ -463,11 +944,9 @@ font: 14pt &quot;Adobe Devanagari&quot;;</string>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
-     <string>仿真波形</string>
+     <string>仿真</string>
     </property>
-    <addaction name="action_wave_sin"/>
-    <addaction name="action_wave_square"/>
-    <addaction name="action_wave_triangle"/>
+    <addaction name="action_simulate"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -516,6 +995,11 @@ font: 14pt &quot;Adobe Devanagari&quot;;</string>
   <action name="action_output_freq">
    <property name="text">
     <string>导出频率</string>
+   </property>
+  </action>
+  <action name="action_simulate">
+   <property name="text">
+    <string>启动仿真</string>
    </property>
   </action>
  </widget>

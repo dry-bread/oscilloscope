@@ -27,14 +27,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    fft.cpp \
-    dialog.cpp
+    fft.cpp
 
 HEADERS += \
         mainwindow.h \
-    fft.h \
-    dialog.h
+    fft.h
 
 FORMS += \
-        mainwindow.ui \
-    dialog.ui
+        mainwindow.ui

@@ -20,6 +20,7 @@
 
 
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -55,6 +56,17 @@ private slots:
     void on_btn_sample_stop_clicked();
 
     void on_btn_sample_goon_clicked();
+
+    void simulate();
+
+
+    void on_btn_simulate_exit_clicked();
+
+    void on_btn_simulate_start_clicked();
+
+    void on_btn_simulate_over_clicked();
+
+    void on_btn_simulate_pause_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -103,6 +115,11 @@ private:
     qreal max_am;
     qreal max_kHz;
     qreal number_error;
+    int s_wave;//仿真波形类型
+    qreal s_voltage_am;//仿真电压幅值
+    int s_sampletime;//仿真电压采样时间
+    int s_waveperiod;//仿真波形周期
+    qreal s_addv;//仿真直流部分
 
     void work_enable(bool en);
     void readTxt(QString path);
@@ -111,6 +128,15 @@ private:
 
     void save_pic(QObject *widget);
     void save_txt(QString str);
+
+    void simulate_enable(bool en);
+
+    bool simulate_flag;//仿真是为true
+
+    int s_square_f;//用于生成正弦波
+    bool s_pause_flag;//用于暂停继续键
 };
+
+
 
 #endif // MAINWINDOW_H
