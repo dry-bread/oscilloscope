@@ -15,7 +15,8 @@
 #include <QMessageBox>
 #include "fft.h"
 #include <QtCore/qmath.h>
-
+#include <QScreen>
+#include <QApplication>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -32,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lineEdit_sample_time->setValidator(new QIntValidator(0,10000,this));//控制采样时间只能输入0到10000的整数
     myTimer = new QTimer(this);//定时器
     connect(myTimer , SIGNAL(timeout()), this, SLOT(RealtimeDataSlot()));//连接定时器时间到达响应的槽函数
+
+
+
 }
 
 
@@ -136,6 +140,10 @@ void MainWindow::on_btn_sample_start_clicked()
         ui->btn_sample_stop->setEnabled(true);
         ui->btn_sample_goon->setEnabled(true);
         ui->btn_sample_pause->setEnabled(true);
+
+        in_times = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 1024);
+        out_freqs = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 1024);
+        f_plan = fftw_plan_dft_1d(1024, in_times, out_freqs, FFTW_FORWARD, FFTW_ESTIMATE);
 
     }
     else {
@@ -255,7 +263,7 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
         if(signal_pointer>=voltages.length()){//采样结束后，停止
             myTimer->stop();
             QMessageBox::warning(this,"完成","采样完成",QMessageBox::Ok);
-            in_time.clear();//清除原有频域数据
+            //            in_time.clear();//清除原有频域数据
             return;
         }
         //时域波形---------------------
@@ -265,12 +273,12 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
         //求最大最小值
         if(m_y>voltage_max){
             voltage_max = m_y;
-            qDebug()<<"max :"<<voltage_max<<endl;
+            //            qDebug()<<"max :"<<voltage_max<<endl;
             ui->label_voltages_max->setText(QString::number(voltage_max) );
         }
         if(m_y<voltage_min){
             voltage_min = m_y;
-            qDebug()<<"min :"<<voltage_min<<endl;
+            //            qDebug()<<"min :"<<voltage_min<<endl;
             ui->label_voltages_min->setText(QString::number(voltage_min) );
         }
         //求平均值
@@ -299,55 +307,95 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
     past_voltages.append(QString::number(m_y));//存储数据
 
     //频域波形 ---------------------------------
-    Complex temp_in;
-    temp_in.rl = m_y;
+    //    Complex temp_in;
+    //    temp_in.rl = m_y;
     if(signal_pointer>=1024){
-        in_time.removeFirst();
+        //        in_time.removeFirst();
+        //        in_time.append(temp_in);//将时域数据装入fft计算的容器里
+
+        for(auto i=0;i<1023;i++){
+            in_times[i][0]=in_times[i+1][0];
+        }
+        in_times[1023][0]=m_y;
     }
-    in_time.append(temp_in);//将时域数据装入fft计算的容器里
-    if(((signal_pointer+1)%1024!=0)&&(signal_pointer>1024)){
-        return;
+    else {
+        in_times[signal_pointer][0]=m_y;
+        in_times[signal_pointer][1]=0;
     }
-    if(m_fft.is_power_of_two(in_time.length())){//判断数据源长度是否符合计算要求
-        qDebug()<<"时域转频域个数："<<(in_time.length())<<endl;
+    //fft计算
+    if((signal_pointer+1)%8==0){//每加载16个数据计算一次频率
+        fftw_execute(f_plan);
+
         past_freq_am.clear();
         past_freq_Hz.clear();
-        //调用接口 生成频域的 out_ 数据
-        QVector<Complex> out_freq(in_time.length());
-        m_fft.fft1(in_time,in_time.length(),out_freq);
-
         max_am=0;//最大幅值
         freq_series->clear();//清除上一次的频域波形
-        peak_temp=0;//极大值
-
-        for(auto i = 0;i<(in_time.length())/2;i++){
-            //计算频域波形点
-            out_freq_kHz=i/sampling_time/(in_time.length())*1000;//x轴单位Hz
-            out_freq_am=qSqrt(qPow((out_freq.at(i).im),2) +qPow((out_freq.at(i).rl),2))/(in_time.length())*2;
-            //绘制频域波形
-            freq_series->append(out_freq_kHz,out_freq_am);
-            past_freq_am.append(QString::number(out_freq_am) );
-            past_freq_Hz.append(QString::number(out_freq_kHz));
-            //            qDebug()<<"频域复数："<<out_freq.at(i).rl<<out_freq.at(i).im<<endl;
-            //            qDebug()<<"频域波形："<<out_freq_kHz<<out_freq_am<<endl;
-            //求最大值
-            if(max_am<out_freq_am){
-                max_kHz=out_freq_kHz;
-                max_am=out_freq_am;
-                if(simulate_flag){
-                    ui->label_s_freq->setText(QString::number(max_kHz));
-                    ui->label_s_am->setText(QString::number(max_am));
+        if(signal_pointer<1024){//当个数小于1024
+            qDebug()<<"个数："<<signal_pointer<<endl;
+            for(auto i = 0;i<(signal_pointer+1)/2;i++){
+                //计算频率输出
+                out_freq_kHz=i/sampling_time/(signal_pointer)*1000;//x轴单位Hz
+                if(out_freq_kHz==0){
+                    out_freq_am=qSqrt(qPow((out_freqs[i][0]),2) +qPow((out_freqs[i][1]),2))/(signal_pointer+1);
                 }
                 else {
-                    ui->label_voltages_Hz->setText(QString::number(max_kHz));
-                    ui->label_voltages_am->setText(QString::number(max_am));
+                    out_freq_am=qSqrt(qPow((out_freqs[i][0]),2) +qPow((out_freqs[i][1]),2))/(signal_pointer+1)*2;
                 }
-
+                //绘制频域波形
+                freq_series->append(out_freq_kHz,out_freq_am);
+                past_freq_am.append(QString::number(out_freq_am) );
+                past_freq_Hz.append(QString::number(out_freq_kHz));
+                qDebug()<<"频域复数："<<out_freqs[i][0]<<out_freqs[i][1]<<endl;
+                qDebug()<<"频域波形："<<out_freq_kHz<<out_freq_am<<endl;
+                //求最大值
+                if(max_am<out_freq_am){
+                    max_kHz=out_freq_kHz;
+                    max_am=out_freq_am;
+                    if(simulate_flag){
+                        ui->label_s_freq->setText(QString::number(max_kHz));
+                        ui->label_s_am->setText(QString::number(max_am));
+                    }
+                    else {
+                        ui->label_voltages_Hz->setText(QString::number(max_kHz));
+                        ui->label_voltages_am->setText(QString::number(max_am));
+                    }
+                }
             }
 
-
-
         }
+        else {
+            qDebug()<<"个数："<<1024<<endl;
+            for(auto i = 0;i<512;i++){
+                //计算频率输出
+                out_freq_kHz=i/sampling_time/(1024)*1000;//x轴单位Hz
+                if(out_freq_kHz==0){
+                    out_freq_am=qSqrt(qPow((out_freqs[i][0]),2) +qPow((out_freqs[i][1]),2))/(1024);
+                }
+                else {
+                    out_freq_am=qSqrt(qPow((out_freqs[i][0]),2) +qPow((out_freqs[i][1]),2))/(1024)*2;
+                }
+                //绘制频域波形
+                freq_series->append(out_freq_kHz,out_freq_am);
+                past_freq_am.append(QString::number(out_freq_am) );
+                past_freq_Hz.append(QString::number(out_freq_kHz));
+                qDebug()<<"频域复数："<<out_freqs[i][0]<<out_freqs[i][1]<<endl;
+                qDebug()<<"频域波形："<<out_freq_kHz<<out_freq_am<<endl;
+                //求最大值
+                if(max_am<out_freq_am){
+                    max_kHz=out_freq_kHz;
+                    max_am=out_freq_am;
+                    if(simulate_flag){
+                        ui->label_s_freq->setText(QString::number(max_kHz));
+                        ui->label_s_am->setText(QString::number(max_am));
+                    }
+                    else {
+                        ui->label_voltages_Hz->setText(QString::number(max_kHz));
+                        ui->label_voltages_am->setText(QString::number(max_am));
+                    }
+                }
+            }
+        }
+        //调节窗口
         if((max_kHz >= freq_axis->max()) || (max_kHz <= freq_axis->min())){
             axis_MoveStep=max_kHz - freq_axis->max();
         }else {
@@ -359,7 +407,60 @@ void MainWindow::RealtimeDataSlot()//实时采样、分析
         freq_chart->scroll(axis_MoveStep,0);
 
     }
-    signal_pointer++;
+
+
+
+
+    //    if(m_fft.is_power_of_two(in_time.length())){//判断数据源长度是否符合计算要求
+
+    ////        qDebug()<<"时域转频域个数："<<(in_time.length())<<endl;
+    //        past_freq_am.clear();
+    //        past_freq_Hz.clear();
+    //        max_am=0;//最大幅值
+
+    //        //调用接口 生成频域的 out_ 数据
+    //        QVector<Complex> out_freq(in_time.length());
+    //        m_fft.fft1(in_time,in_time.length(),out_freq);
+
+    //        freq_series->clear();//清除上一次的频域波形
+
+    //        for(auto i = 0;i<(in_time.length())/2;i++){
+    //            //计算频域波形点
+    //            out_freq_kHz=i/sampling_time/(in_time.length())*1000;//x轴单位Hz
+    //            out_freq_am=qSqrt(qPow((out_freq.at(i).im),2) +qPow((out_freq.at(i).rl),2))/(in_time.length())*2;
+    //            //绘制频域波形
+    //            freq_series->append(out_freq_kHz,out_freq_am);
+    //            past_freq_am.append(QString::number(out_freq_am) );
+    //            past_freq_Hz.append(QString::number(out_freq_kHz));
+    //            //            qDebug()<<"频域复数："<<out_freq.at(i).rl<<out_freq.at(i).im<<endl;
+    //            //            qDebug()<<"频域波形："<<out_freq_kHz<<out_freq_am<<endl;
+    //            //求最大值
+    //            if(max_am<out_freq_am){
+    //                max_kHz=out_freq_kHz;
+    //                max_am=out_freq_am;
+    //                if(simulate_flag){
+    //                    ui->label_s_freq->setText(QString::number(max_kHz));
+    //                    ui->label_s_am->setText(QString::number(max_am));
+    //                }
+    //                else {
+    //                    ui->label_voltages_Hz->setText(QString::number(max_kHz));
+    //                    ui->label_voltages_am->setText(QString::number(max_am));
+    //                }
+    //            }
+    //        }
+    //        //调节窗口
+    //        if((max_kHz >= freq_axis->max()) || (max_kHz <= freq_axis->min())){
+    //            axis_MoveStep=max_kHz - freq_axis->max();
+    //        }else {
+    //            axis_MoveStep=0;
+    //        }
+    //        if((freq_axis->min()+axis_MoveStep)<0){
+    //            axis_MoveStep-=(axis_MoveStep+freq_axis->min());
+    //        }
+    //        freq_chart->scroll(axis_MoveStep,0);
+
+    //    }
+    signal_pointer++;//指向下一个数据
 
 }
 
@@ -430,9 +531,11 @@ int MainWindow::minCommonMultiple(qreal x, qreal y)
     return ((int)x)*((int)y)/maxCommonDivisor1((int)x,(int)y);
 }
 
-void MainWindow::save_pic(QObject *widget)
+void MainWindow::save_pic(QWidget *widget)
 {
-    QPixmap p = QPixmap::grabWidget(widget);
+    QRect rec = ((QWidget *)widget)->geometry();
+    QPixmap p = QPixmap::grabWindow(widget->winId(),rec.x(), rec.y(), rec.width(), rec.height());
+    //    QPixmap p = QPixmap::grabWidget(widget);
     QString filename = QFileDialog::getSaveFileName(this, tr("保存波形"),"",tr("*.png;; *.bmp;; *.jpg;; *.tif;; *.GIF")); //选择路径
     if(filename.isEmpty()) {
         return;
@@ -493,9 +596,12 @@ void MainWindow::on_btn_sample_stop_clicked()//结束采样
     ui->btn_sample_goon->setEnabled(false);
     ui->btn_sample_stop->setEnabled(false);
     time_series->clear();//清除原有线条
-    in_time.clear();//清除原有频域数据
+    //    in_time.clear();//清除原有频域数据
     freq_series->clear();
     past_voltages.clear();
+
+    fftw_destroy_plan(f_plan);
+    fftw_free(in_times); fftw_free(out_freqs);
 
 
 }
@@ -582,28 +688,33 @@ void MainWindow::on_btn_simulate_start_clicked()
     ui->radio_wave_square_6->setEnabled(false);
     ui->radio_wave_triangle_6->setEnabled(false);
 
+    in_times = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 1024);
+    out_freqs = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * 1024);
+    f_plan = fftw_plan_dft_1d(1024, in_times, out_freqs, FFTW_FORWARD, FFTW_ESTIMATE);
 
 
 }
 
 void MainWindow::on_btn_simulate_over_clicked()
 {
-        myTimer->stop();
-        time_series->clear();//清除原有线条
-        in_time.clear();//清除原有频域数据
-        freq_series->clear();
-        past_voltages.clear();
+    myTimer->stop();
+    time_series->clear();//清除原有线条
+    //    in_time.clear();//清除原有频域数据
+    freq_series->clear();
+    past_voltages.clear();
 
-        //调整按钮
-        ui->btn_simulate_pause->setEnabled(false);
-        ui->btn_simulate_over->setEnabled(false);
-        ui->btn_simulate_exit->setEnabled(true);
-        ui->btn_simulate_start->setEnabled(true);
+    //调整按钮
+    ui->btn_simulate_pause->setEnabled(false);
+    ui->btn_simulate_over->setEnabled(false);
+    ui->btn_simulate_exit->setEnabled(true);
+    ui->btn_simulate_start->setEnabled(true);
 
-        ui->radio_wave_sin_6->setEnabled(true);
-        ui->radio_wave_square_6->setEnabled(true);
-        ui->radio_wave_triangle_6->setEnabled(true);
+    ui->radio_wave_sin_6->setEnabled(true);
+    ui->radio_wave_square_6->setEnabled(true);
+    ui->radio_wave_triangle_6->setEnabled(true);
 
+    fftw_destroy_plan(f_plan);
+    fftw_free(in_times); fftw_free(out_freqs);
 }
 
 void MainWindow::on_btn_simulate_pause_clicked()

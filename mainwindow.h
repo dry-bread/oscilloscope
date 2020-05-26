@@ -14,7 +14,7 @@
 #include <QString>
 #include <QList>
 #include <fft.h>
-
+#include <fftw3.h>
 
 
 
@@ -99,16 +99,19 @@ private:
     qreal axis_MoveStep;//坐标轴移动长度
     QStringList past_voltages;//存储过去的电压
 
-    QVector<Complex> in_time;//fft 输入的时域数据
+//    QVector<Complex> in_time;//fft 输入的时域数据
+//    QVector<fftw_complex> in_time;//fft 输入的时域数据
+
+    fftw_complex *in_times;
+    fftw_complex *out_freqs;
+    fftw_plan f_plan;
+
     //QVector<Complex> out_freq;//fft 输出的频域数据
     qreal out_freq_am;//频率幅度值
     qreal out_freq_kHz;//频率点
-//    QList<qreal> peaks;//峰值集合
-//    QList<qreal> peaks_kHz;//峰值集合
     QStringList past_freq_am;
     QStringList past_freq_Hz;
     qreal peak_left;
-    qreal peak_temp;
     qreal peak_temp_kHz;
     fft m_fft;
     qreal signal_period;//信号周期
@@ -126,7 +129,7 @@ private:
     int maxCommonDivisor1(int x,int y);//最大公约数
     int minCommonMultiple(qreal x,qreal y);//最小公倍数
 
-    void save_pic(QObject *widget);
+    void save_pic(QWidget *widget);
     void save_txt(QString str);
 
     void simulate_enable(bool en);

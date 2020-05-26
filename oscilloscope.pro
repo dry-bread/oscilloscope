@@ -31,7 +31,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    fft.h
+    fft.h \
+    fftw3.h
 
 FORMS += \
         mainwindow.ui
@@ -40,3 +41,18 @@ ICON += ":/Icon/mainwindow1.png"
 
 RESOURCES += \
     res.qrc
+
+
+FFTWPATH = D:/qt/fftw-3.3.5-dll32
+
+#win32: LIBS += D:/qt/fftw-3.3.5-dll32/libfftw3-3.dll
+
+#INCLUDEPATH += $$PWD/D:/qt/fftw-3.3.5-dll32
+#DEPENDPATH += $$PWD/D:/qt/fftw-3.3.5-dll32
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../fftw-3.3.5-dll32/ -llibfftw3-3
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../fftw-3.3.5-dll32/ -llibfftw3-3
+else:unix: LIBS += -L$$PWD/../fftw-3.3.5-dll32/ -llibfftw3-3
+
+INCLUDEPATH += $$PWD/../fftw-3.3.5-dll32
+DEPENDPATH += $$PWD/../fftw-3.3.5-dll32

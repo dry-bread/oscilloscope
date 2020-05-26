@@ -499,6 +499,9 @@ background-color: rgb(247, 255, 224);</string>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
+      <property name="text">
+       <string>100</string>
+      </property>
      </widget>
      <widget class="QLabel" name="label_54">
       <property name="geometry">
@@ -524,6 +527,9 @@ background-color: rgb(247, 255, 224);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>5</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_55">
@@ -615,6 +621,9 @@ background-color: rgb(247, 255, 224);</string>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>10</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_60">
