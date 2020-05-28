@@ -2,4 +2,7 @@
     <qresource prefix="/Icon">
         <file>mainwindow1.png</file>
     </qresource>
+    <qresource prefix="/Backgroud">
+        <file>green9.jpg</file>
+    </qresource>
 </RCC>

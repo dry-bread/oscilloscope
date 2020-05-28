@@ -24,11 +24,15 @@
 font: 9pt &quot;宋体&quot;;</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">#centralWidget {background-image: url(:/Backgroud/green9.jpg);}
+</string>
+   </property>
    <widget class="QGroupBox" name="groupBox_real_1">
     <property name="geometry">
      <rect>
-      <x>1290</x>
-      <y>10</y>
+      <x>1300</x>
+      <y>40</y>
       <width>221</width>
       <height>171</height>
      </rect>
@@ -65,6 +69,9 @@ font: 9pt &quot;Arial&quot;;</string>
        <height>20</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
     </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
@@ -88,6 +95,9 @@ font: 9pt &quot;Arial&quot;;</string>
        <height>23</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>开始采样</string>
      </property>
@@ -100,6 +110,9 @@ font: 9pt &quot;Arial&quot;;</string>
        <width>75</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>结束采样</string>
@@ -114,6 +127,9 @@ font: 9pt &quot;Arial&quot;;</string>
        <height>23</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="text">
       <string>暂停采样</string>
      </property>
@@ -126,6 +142,9 @@ font: 9pt &quot;Arial&quot;;</string>
        <width>75</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>继续采样</string>
@@ -141,7 +160,7 @@ font: 9pt &quot;Arial&quot;;</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(215, 255, 215);</string>
+      <string notr="true">background-color: rgb(237, 253, 229);</string>
      </property>
      <property name="title">
       <string>仿真波形</string>
@@ -201,8 +220,8 @@ font: 9pt &quot;Arial&quot;;</string>
    <widget class="QGroupBox" name="groupBox_real_2">
     <property name="geometry">
      <rect>
-      <x>1290</x>
-      <y>200</y>
+      <x>1300</x>
+      <y>230</y>
       <width>221</width>
       <height>491</height>
      </rect>
@@ -469,7 +488,7 @@ background-color: rgb(247, 255, 224);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(215, 255, 215);</string>
+      <string notr="true">background-color: rgb(237, 253, 229);</string>
      </property>
      <property name="title">
       <string>信号设置</string>
@@ -648,8 +667,17 @@ background-color: rgb(247, 255, 224);</string>
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="text">
        <string>开始仿真</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>73</width>
+        <height>22</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_simulate_over">
@@ -660,6 +688,9 @@ background-color: rgb(247, 255, 224);</string>
         <width>75</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>结束仿真</string>
@@ -674,6 +705,9 @@ background-color: rgb(247, 255, 224);</string>
         <height>23</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="text">
        <string>暂停/继续</string>
       </property>
@@ -686,6 +720,9 @@ background-color: rgb(247, 255, 224);</string>
         <width>75</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="text">
        <string>退出仿真</string>
@@ -865,7 +902,7 @@ background-color: rgb(238, 255, 206);</string>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>10</y>
+      <y>40</y>
       <width>1241</width>
       <height>681</height>
      </rect>
@@ -925,23 +962,33 @@ font: 14pt &quot;Adobe Devanagari&quot;;</string>
     </layout>
    </widget>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>1583</width>
-     <height>18</height>
+     <height>25</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(56, 113, 0);
+color: rgb(255, 255, 255);
+font: 14pt &quot;黑体&quot;;</string>
+   </property>
    <widget class="QMenu" name="menu">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>导入信号</string>
     </property>
     <addaction name="action_input_txt"/>
    </widget>
    <widget class="QMenu" name="menu_2">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>导出数据</string>
     </property>

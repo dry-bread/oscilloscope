@@ -26,6 +26,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    resize(1550,800);
+    ui->groupBox_real_1->setWindowOpacity(0.6);
+    ui->groupBox_real_2->setWindowOpacity(0.6);
+    ui->groupBox_3->setWindowOpacity(0.6);
+    ui->groupBox_4->setWindowOpacity(0.6);
+    ui->widget_time->setWindowOpacity(0.6);
+//    ui->menuBar->setFixedHeight(30);
     simulate_enable(false);
     init_time_chart();
     init_menu();
